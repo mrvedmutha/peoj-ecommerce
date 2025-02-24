@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 export const superAdminSignupSchema = z.object({
+  username: z.string(),
   name: z.string(),
   email: z.string().email(),
   token: z.string(),
