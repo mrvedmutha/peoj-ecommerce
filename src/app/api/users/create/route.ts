@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import connectToDatabase from "@/lib/dbConnect";
 import { userService } from "@/service/userService";
 import bcrypt from "bcryptjs";

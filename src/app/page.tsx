@@ -1,6 +1,5 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { LoginButton } from "@/components/auth/loginButton";
+import { LoginButton } from "../../private/loginButton";
 
 export default function Home() {
   return (

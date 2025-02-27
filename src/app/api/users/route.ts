@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     return errorResponse("Unauthorized, Please Login", 401);
   }
   try {
-    const users = (await userService.getUser()) as any;
+    const users = (await userService.getUser()) || [];
     return successResponse("Users fetched successfully", 200, users);
   } catch (e) {
     return errorResponse("Error fetching users", 500, e);
