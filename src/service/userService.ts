@@ -7,7 +7,7 @@ export const userService = {
     email: string,
     password: string,
     role: string,
-    createdBy: string
+    createdBy: any
   ) {
     const user = new User({
       username,
@@ -25,7 +25,7 @@ export const userService = {
   async getUserbyUsername(username: string) {
     return await User.findOne({ username });
   },
-  async getUserbyRole(role: string) {
-    return await User.findOne({ role });
+  async getUserbyEmail(email: string) {
+    return await User.findOne({ email });
   },
 };

@@ -4,4 +4,5 @@ export enum Roles {
   INVENTORY = "inventory",
   EDITOR = "editor",
   MARKETER = "marketer",
+  CUSTOMER = "customer",
 }
