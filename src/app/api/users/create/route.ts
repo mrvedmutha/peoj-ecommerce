@@ -16,9 +16,14 @@ export async function POST(request: NextRequest) {
     if (session) {
       const createdBy = session.user.fullname;
       const sessionRole = session.user.role;
+      if (!username || !fullname || !email || !password || !role) {
+        return errorResponse("All fields are required", 403);
+      }
       if (
-        sessionRole ===
-        (Roles.CUSTOMER || Roles.EDITOR || Roles.INVENTORY || Roles.MARKETER)
+        sessionRole === Roles.CUSTOMER ||
+        sessionRole === Roles.EDITOR ||
+        sessionRole === Roles.INVENTORY ||
+        sessionRole === Roles.MARKETER
       ) {
         return errorResponse("Unauthorized!", 403);
       }
@@ -33,9 +38,6 @@ export async function POST(request: NextRequest) {
       if (getEmail) {
         return errorResponse("Email already exists", 409);
       }
-      if (!username || !fullname || !email || !password || !role) {
-        return errorResponse("All fields are required", 403);
-      }
       const hashedPassword = await bcrypt.hash(password, 10);
       await userService.createUser(
         username,
@@ -46,24 +48,6 @@ export async function POST(request: NextRequest) {
         createdBy
       );
       return successResponse("User created successfully", 201);
-    } else {
-      const existingUser = await userService.getUserbyEmail(email);
-      if (existingUser) {
-        return errorResponse("Email already exists", 409);
-      }
-      if (!username || !fullname || !email || !password) {
-        return errorResponse("All fields are required", 403);
-      }
-      const hashedPassword = await bcrypt.hash(password, 10);
-      await userService.createUser(
-        username,
-        fullname,
-        email,
-        hashedPassword,
-        Roles.CUSTOMER,
-        null
-      );
-      return successResponse("Customer registered successfully", 201);
     }
   } catch (e) {
     return errorResponse("Error creating user", 500, e);

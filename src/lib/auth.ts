@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
           if (!isPasswordValid) {
             throw new Error("Password is not correct!");
           }
-          console.log(`user: ${user}`);
+          console.log(`user: ${user}`); //TODO remove
           return user;
         } catch (e: any) {
           console.log(e);
@@ -43,8 +43,8 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
   callbacks: {

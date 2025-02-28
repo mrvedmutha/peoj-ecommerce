@@ -28,6 +28,8 @@ import { loginSchema } from "@/Schemas/auth/loginSchema";
 import { Roles } from "@/types/enum/enumUser";
 import Image from "next/image";
 import googleSVG from "@/assets/auth/google.svg";
+import Link from "next/link";
+import { compare } from "bcryptjs";
 
 type FormValues = z.infer<typeof loginSchema>;
 
@@ -59,29 +61,30 @@ const Login = () => {
       return;
     }
     const session = await getSession();
-
+    console.log(session);
     if (session) {
+      console.log("Session exists"); //TODO remove
       const userRole = session.user.role;
       if (
-        userRole ===
-        (Roles.ADMIN ||
-          Roles.MARKETER ||
-          Roles.INVENTORY ||
-          Roles.EDITOR ||
-          Roles.SUPERADMIN)
+        userRole === Roles.SUPERADMIN ||
+        userRole === Roles.ADMIN ||
+        userRole === Roles.EDITOR ||
+        userRole === Roles.INVENTORY ||
+        userRole === Roles.MARKETER
       ) {
         router.push("/admin/dashboard");
       }
     } else {
+      console.log("welcome customer");
       router.push("/cx/dashboard");
     }
   };
   return (
     <>
       <div className="flex justify-center items-center min-h-screen">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onLoginSubmit)}>
-            <Card className="w-full max-w-sm">
+        <Card className="w-full max-w-sm">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onLoginSubmit)}>
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">Login</CardTitle>
                 <CardDescription>
@@ -133,36 +136,46 @@ const Login = () => {
                     {isLoading ? "Loading..." : "Login"}
                   </Button>
                 </div>
-                {/* <div className="grid gap-2">
-                <div className="relative flex py-5 items-center">
-                  <div className="flex-grow border-t border-gray-400"></div>
-                  <span className="flex-shrink mx-4 text-gray-400">OR</span>
-                  <div className="flex-grow border-t border-gray-400"></div>
-                </div>
-              </div>
-              <div className="grid gap-2">
-                <Button
-                  variant={"outline"}
-                  onSubmit={() =>
-                    signIn("google", { callbackUrl: "/cx/dashboard" })
-                  }
-                >
-                  <span className="flex">
-                    <Image
-                      src={googleSVG}
-                      alt="Google Logo"
-                      width={20}
-                      height={20}
-                      className="mr-2"
-                    />
-                    Login with Google
-                  </span>
-                </Button>
-              </div> */}
               </CardContent>
-            </Card>
-          </form>
-        </Form>
+            </form>
+          </Form>
+          <CardContent className="grid mt-0">
+            <div className="grid">
+              <div className="relative flex py-5 items-center">
+                <div className="flex-grow border-t border-gray-400"></div>
+                <span className="flex-shrink mx-4 text-gray-400">OR</span>
+                <div className="flex-grow border-t border-gray-400"></div>
+              </div>
+            </div>
+            <div className="grid gap-4">
+              <Button
+                variant={"outline"}
+                onClick={() => {
+                  signIn("google", { callbackUrl: "/cx/dashboard" });
+                }}
+              >
+                <span className="flex">
+                  <Image
+                    src={googleSVG}
+                    alt="Google Logo"
+                    width={20}
+                    height={20}
+                    className="mr-2"
+                  />
+                  Login with Google
+                </span>
+              </Button>
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <p className="text-sm text-muted-foreground">
+              Don&apos;t have an account?{" "}
+              <Link href="/register" className="text-primary underline">
+                Register
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
       </div>
     </>
   );
