@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "password", type: "password" },
       },
-      async authorize(credentials: any): Promise<any> {
+      async authorize(credentials: any, res: any): Promise<any> {
         try {
           await dbConnect();
           const user = await User.findOne({
@@ -24,6 +24,7 @@ export const authOptions: NextAuthOptions = {
             ],
           });
           if (!user) {
+            console.log("User not found");
             throw new Error("User not found!");
           }
           const isPasswordValid = bcrypt.compare(
@@ -33,8 +34,10 @@ export const authOptions: NextAuthOptions = {
           if (!isPasswordValid) {
             throw new Error("Password is not correct!");
           }
+          console.log(`user: ${user}`);
           return user;
         } catch (e: any) {
+          console.log(e);
           throw new Error("Error connecting database", e);
         }
       },
