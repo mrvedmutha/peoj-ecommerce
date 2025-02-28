@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { Roles } from "@/types/enum/enumUser";
+import { Roles } from "@/types/enum/enumExports";
 import { IUser } from "@/types/userInterface";
 
 const userSchema = new Schema({

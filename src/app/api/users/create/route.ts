@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { successResponse, errorResponse } from "@/utils/jsonResponse";
-import { Roles } from "@/types/enum/enumUser";
+import { Roles } from "@/types/enum/enumExports";
 
 export async function POST(request: NextRequest) {
   await connectToDatabase();

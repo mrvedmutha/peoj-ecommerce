@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { Roles } from "./types/enum/enumUser";
+import { Roles } from "./types/enum/enumExports";
 
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req: req }).catch((err) => {

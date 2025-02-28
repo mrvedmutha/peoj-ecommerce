@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/form";
 import "@/app/globals.css";
 import { loginSchema } from "@/Schemas/auth/loginSchema";
-import { Roles } from "@/types/enum/enumUser";
+import { Roles } from "@/types/enum/enumExports";
 import Image from "next/image";
 import googleSVG from "@/assets/auth/google.svg";
 import Link from "next/link";
