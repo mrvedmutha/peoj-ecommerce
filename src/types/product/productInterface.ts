@@ -1,3 +1,6 @@
+import { IProductCategory } from "./productCategoryInterface";
+import { IProductBrand } from "./productBrandInterface";
+import { IProductAttr } from "./productAttribute";
 export interface IProduct {
   _id?: string;
   productName: string;
@@ -5,10 +8,11 @@ export interface IProduct {
   productShortDesc: string;
   productPrice: number;
   productCurr: string;
+  productImages: string[];
   productAttr: IProductAttr[];
-  productBrand: IBrand;
-  productCategory: ICategory[];
-  productTag: IProductTag[];
+  productBrand: IProductBrand;
+  productCategory: IProductCategory[];
+  productTag: string[];
   productDimensions: {
     length: number;
     breath: number;

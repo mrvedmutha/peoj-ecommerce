@@ -38,14 +38,15 @@ export async function POST(request: NextRequest) {
       if (getEmail) {
         return errorResponse("Email already exists", 409);
       }
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(password, 15);
       await userService.createUser(
         username,
         fullname,
         email,
         hashedPassword,
         role,
-        createdBy
+        createdBy,
+        new Date()
       );
       return successResponse("User created successfully", 201);
     }

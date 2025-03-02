@@ -6,3 +6,23 @@ export enum Roles {
   MARKETER = "marketer",
   CUSTOMER = "customer",
 }
+
+export enum ShippingStatus {
+  PENDING = "pending",
+  PROCESSING = "processing",
+  SHIPPED = "shipped",
+  DELIVERED = "delivered",
+  CANCELLED = "cancelled",
+  TEST = "test",
+}
+
+export enum PaymentStatus {
+  PENDING = "pending",
+  COMPLETED = "completed",
+  FAILED = "failed",
+}
+
+export enum PaymentMethod {
+  PREPAID = "prepaid",
+  COD = "cod",
+}
