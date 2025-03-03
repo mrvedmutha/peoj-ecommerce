@@ -7,7 +7,7 @@ import { checkUserSession } from "@/utils/sessionCheck";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await connectToDatabase();
   const session = await checkUserSession();
@@ -15,7 +15,6 @@ export async function GET(
     return errorResponse("Unauthorized, Please Login", 401);
   }
   try {
-    const { params } = context;
     const { id } = await params;
     const sessionUser = session.user;
     const userDetails = await userService.getUserById(id);
