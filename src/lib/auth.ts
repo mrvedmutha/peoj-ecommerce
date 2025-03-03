@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
           if (!isPasswordValid) {
             throw new Error("Password is not correct!");
           }
-          console.log(`user: ${user}`); //TODO remove
+          //console.log(`user: ${user}`); //TODO remove
           return user;
         } catch (e: any) {
           console.log(e);
@@ -64,7 +64,7 @@ export const authOptions: NextAuthOptions = {
             profile.name,
             Roles.CUSTOMER
           );
-          console.log(profile); //TODO remove
+          //console.log(profile); //TODO remove
         }
       }
       return true;
@@ -78,6 +78,19 @@ export const authOptions: NextAuthOptions = {
         let existingUser = await User.findOne({ email: user.email });
         if (!existingUser) {
           existingUser = await CxUser.findOne({ email: user.email });
+        }
+        if (existingUser) {
+          token._id = existingUser._id;
+          token.username = existingUser.username;
+          token.fullname = existingUser.fullname;
+          token.role = existingUser.role;
+        }
+      }
+      if (!user && token.email) {
+        await dbConnect();
+        let existingUser = await User.findOne({ email: token.email });
+        if (!existingUser) {
+          existingUser = await CxUser.findOne({ email: token.email });
         }
         if (existingUser) {
           token._id = existingUser._id;
