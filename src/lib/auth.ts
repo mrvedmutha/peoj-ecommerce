@@ -70,7 +70,7 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async jwt({ token, user }) {
-      console.log("User beforen jwt: ", user);
+      console.log("User beforen jwt: ", user); //TODO remove
       console.log("--------------");
       console.log("Token beforen jwt: ", token);
       if (user) {
@@ -87,6 +87,7 @@ export const authOptions: NextAuthOptions = {
         }
       }
       if (!user && token.email) {
+        console.log("token.email: ", token.email);
         await dbConnect();
         let existingUser = await User.findOne({ email: token.email });
         if (!existingUser) {
@@ -99,6 +100,9 @@ export const authOptions: NextAuthOptions = {
           token.role = existingUser.role;
         }
       }
+      console.log("Token after jwt: ", token); //TODO remove
+      console.log("--------------");
+      console.log("user after jwt: ", user);
       return token;
     },
     async session({ session, token }) {
