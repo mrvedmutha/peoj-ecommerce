@@ -1,19 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { Roles } from "./types/enum/enumExports";
-
+import * as jwt from "jsonwebtoken";
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req: req }).catch((err) => {
+  const token = await getToken({ req: req, raw: true }).catch((err) => {
     console.error("Error fetching token in middleware: ", err);
   });
-  console.log(`token in middleware ${token}`);
+  console.log(`token in middleware ${token}`); //TODO remove
   const url = req.nextUrl;
   const urlPath = url.pathname;
   if (!token && urlPath !== "/login") {
     return NextResponse.redirect(new URL("/login", req.url));
   }
   if (token) {
-    const userRole = token.role;
+    const decodedToken = jwt.decode(token) as { role: string };
+    console.timeLog("Decoded code in middleware: ");
+    console.log(decodedToken);
+    const userRole = decodedToken.role;
     if (
       userRole === Roles.SUPERADMIN ||
       userRole === Roles.ADMIN ||
