@@ -87,7 +87,7 @@ export const authOptions: NextAuthOptions = {
         }
       }
       if (!user && token.email) {
-        console.log("token.email: ", token.email);
+        console.log("token.email: ", token.email); //TODO remove
         await dbConnect();
         let existingUser = await User.findOne({ email: token.email });
         if (!existingUser) {
