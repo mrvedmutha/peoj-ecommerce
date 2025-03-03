@@ -6,8 +6,8 @@ import { Roles } from "@/types/enum/enumExports";
 import { checkUserSession } from "@/utils/sessionCheck";
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
+  req: NextRequest
 ) {
   await connectToDatabase();
   const session = await checkUserSession();
