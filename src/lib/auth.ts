@@ -70,6 +70,9 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async jwt({ token, user }) {
+      console.log("User beforen jwt: ", user);
+      console.log("--------------");
+      console.log("Token beforen jwt: ", token);
       if (user) {
         await dbConnect();
         let existingUser = await User.findOne({ email: user.email });
