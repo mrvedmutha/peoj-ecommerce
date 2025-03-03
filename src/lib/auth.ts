@@ -1,9 +1,14 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import { cxService } from "@/service/cxService";
+
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
+import CxUser from "@/models/cxUser";
 import bcrypt from "bcryptjs";
+import { Roles } from "@/types/enum/enumExports";
+import { JWT } from "next-auth/jwt";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -19,13 +24,13 @@ export const authOptions: NextAuthOptions = {
           await dbConnect();
           const user = await User.findOne({
             $or: [
-              { identifier: credentials.identifier },
-              { username: credentials.identifier },
+              { email: credentials.identifier },
+              { identifer: credentials.identifier },
             ],
           });
           if (!user) {
             console.log("User not found");
-            throw new Error("User not found!");
+            throw new Error();
           }
           const isPasswordValid = bcrypt.compare(
             credentials.password,
@@ -48,13 +53,35 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async signIn({ account, profile }: any) {
+      if (account.provider === "google") {
+        console.log(profile);
+        await dbConnect();
+        const findUser = await cxService.getCxUserByEmail(profile.email);
+        if (!findUser) {
+          await cxService.createCxGoogleUser(
+            profile.email,
+            profile.name,
+            Roles.CUSTOMER
+          );
+          console.log(profile); //TODO remove
+        }
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
-        token._id = user._id;
-        token.username = user.username;
-        token.fullname = user.fullname;
-        token.email = user.email;
-        token.role = user.role;
+        await dbConnect();
+        let existingUser = await User.findOne({ email: user.email });
+        if (!existingUser) {
+          existingUser = await CxUser.findOne({ email: user.email });
+        }
+        if (existingUser) {
+          token._id = existingUser._id;
+          token.username = existingUser.username;
+          token.fullname = existingUser.fullname;
+          token.role = existingUser.role;
+        }
       }
       return token;
     },

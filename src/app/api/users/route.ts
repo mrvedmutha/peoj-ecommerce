@@ -1,14 +1,13 @@
 import { NextRequest } from "next/server";
 import connectToDatabase from "@/lib/dbConnect";
 import { userService } from "@/service/userService";
-import { getServerSession } from "next-auth";
+import { checkUserSession } from "@/utils/sessionCheck";
 import { errorResponse, successResponse } from "@/utils/jsonResponse";
-import { authOptions } from "@/lib/auth";
 import { Roles } from "@/types/enum/enumExports";
 
 export async function GET(request: NextRequest) {
   await connectToDatabase();
-  const session = await getServerSession(authOptions);
+  const session = await checkUserSession();
   if (!session) {
     return errorResponse("Unauthorized, Please Login", 401);
   }
@@ -20,7 +19,7 @@ export async function GET(request: NextRequest) {
       sessionRole === Roles.INVENTORY ||
       sessionRole === Roles.MARKETER
     ) {
-      return errorResponse("Unauthorized!", 403);
+      return errorResponse("Access Denied! You are not authorized.", 403);
     }
     const users = (await userService.getUser()) || [];
     return successResponse("Users fetched successfully", 200, users);

@@ -29,4 +29,17 @@ export const cxService = {
     });
     await user.save();
   },
+  async createCxGoogleUser(
+    profileEmail: string,
+    profileName: string,
+    role: string
+  ) {
+    const googleUser = new CxUser({
+      username: profileEmail,
+      fullname: profileName,
+      email: profileEmail,
+      role: role,
+    });
+    await googleUser.save();
+  },
 };

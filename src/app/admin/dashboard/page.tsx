@@ -4,10 +4,12 @@ import { signOut } from "next-auth/react";
 
 const adminDashboard = () => {
   return (
-    <div>
-      <div>adminDashboard</div>
-      <button onClick={() => signOut()}>Sign out</button>
-    </div>
+    <>
+      <div>
+        <div>adminDashboard</div>
+        <button onClick={() => signOut()}>Sign out</button>
+      </div>
+    </>
   );
 };
 

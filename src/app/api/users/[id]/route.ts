@@ -1,24 +1,32 @@
 import { NextRequest } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import connectToDatabase from "@/lib/dbConnect";
 import { userService } from "@/service/userService";
 import { errorResponse, successResponse } from "@/utils/jsonResponse";
+import { Roles } from "@/types/enum/enumExports";
+import { checkUserSession } from "@/utils/sessionCheck";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   await connectToDatabase();
-  const session = await getServerSession(authOptions);
+  const session = await checkUserSession();
   if (!session) {
     return errorResponse("Unauthorized, Please Login", 401);
   }
   try {
     const { id } = await params;
+    const sessionUser = session.user;
     const userDetails = await userService.getUserById(id);
     if (!userDetails) {
       return errorResponse("User not found", 404);
+    }
+    if (
+      sessionUser.role !== Roles.SUPERADMIN &&
+      sessionUser.role !== Roles.ADMIN &&
+      sessionUser._id !== id
+    ) {
+      return errorResponse("Access Denied! You are not authorized.", 403);
     }
     return successResponse("User fetched successfully", 200, userDetails);
   } catch (e) {

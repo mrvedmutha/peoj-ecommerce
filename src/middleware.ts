@@ -6,6 +6,7 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req: req }).catch((err) => {
     console.error("Error fetching token in middleware: ", err);
   });
+  console.log(`token in middleware ${token}`);
   const url = req.nextUrl;
   const urlPath = url.pathname;
   if (!token && urlPath !== "/login") {
@@ -35,6 +36,7 @@ export async function middleware(req: NextRequest) {
         urlPath === "/admin/dashboard" ||
         urlPath === "/verify"
       ) {
+        console.log("customer access");
         return NextResponse.redirect(new URL("/cx/dashboard", req.url));
       } else {
         return NextResponse.next();
