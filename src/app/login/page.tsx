@@ -61,7 +61,7 @@ const Login = () => {
       return;
     }
     const session = await getSession();
-    console.log(session);
+    console.log(session); //TODO remove
     if (session) {
       console.log("Session exists"); //TODO remove
       const userRole = session.user.role;

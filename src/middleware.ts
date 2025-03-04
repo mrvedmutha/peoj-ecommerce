@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt";
 import { Roles } from "./types/enum/enumExports";
 import * as jwt from "jsonwebtoken";
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req: req, raw: true }).catch((err) => {
+  const token = await getToken({ req: req }).catch((err) => {
     console.error("Error fetching token in middleware: ", err);
   });
   console.log(`token in middleware ${token}`); //TODO remove
@@ -13,10 +13,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
   if (token) {
-    const decodedToken = jwt.decode(token) as { role: string };
-    console.log("Decoded code in middleware: ");
-    console.log(decodedToken);
-    const userRole = decodedToken.role;
+    const userRole = token.role;
     if (
       userRole === Roles.SUPERADMIN ||
       userRole === Roles.ADMIN ||
