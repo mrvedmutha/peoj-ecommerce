@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest) {
   }
   if (token) {
     const decodedToken = jwt.decode(token) as { role: string };
-    console.timeLog("Decoded code in middleware: ");
+    console.log("Decoded code in middleware: ");
     console.log(decodedToken);
     const userRole = decodedToken.role;
     if (
