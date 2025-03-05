@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { Roles } from "./types/enum/enumExports";
-import * as jwt from "jsonwebtoken";
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req: req }).catch((err) => {
+  const authSecret = process.env.NEXTAUTH_SECRET as string;
+  const token = await getToken({
+    req: req,
+    secret: authSecret,
+  }).catch((err) => {
     console.error("Error fetching token in middleware: ", err);
   });
   console.log("--------------"); //TODO Remove

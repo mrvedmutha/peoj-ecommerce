@@ -17,14 +17,22 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials: any, res: any): Promise<any> {
         try {
           await dbConnect();
-          const user = await User.findOne({
+          let user = await User.findOne({
             $or: [
               { email: credentials.identifier },
               { username: credentials.identifier },
             ],
           });
           if (!user) {
-            throw new Error("No user found");
+            user = await CxUser.findOne({
+              $or: [
+                { email: credentials.identifier },
+                { username: credentials.identifier },
+              ],
+            });
+          }
+          if (!user) {
+            throw new Error("User not found");
           }
           const isPasswordValid = await bcrypt.compare(
             credentials.password,
@@ -52,23 +60,23 @@ export const authOptions: NextAuthOptions = {
         token.email = user.email;
         token.role = user.role;
       }
-      if (user && !user.role) {
-        console.log("no user role found, finding user..."); //TODO remove
-        let existingUser: any = User.findOne({ email: token.email });
-        // console.log("--------------");
-        // console.log("existing user:");
-        // console.log(existingUser);
-        if (!existingUser) {
-          existingUser = CxUser.findOne({ email: token.email });
-        }
-        if (existingUser) {
-          token.fullname = existingUser.fullname;
-          token.role = existingUser.role;
-        }
-      }
-      // console.log("--------------");
-      // console.log("Token after jwt:");
-      // console.log(token);
+      // if (user && !user.role) {
+      //   console.log("no user role found, finding user..."); //TODO remove
+      //   let existingUser: any = User.findOne({ email: token.email });
+      //   // console.log("--------------");
+      //   // console.log("existing user:");
+      //   // console.log(existingUser);
+      //   if (!existingUser) {
+      //     existingUser = CxUser.findOne({ email: token.email });
+      //   }
+      //   if (existingUser) {
+      //     token.fullname = existingUser.fullname;
+      //     token.role = existingUser.role;
+      //   }
+      // }
+      // // console.log("--------------");
+      // // console.log("Token after jwt:");
+      // // console.log(token);
       return token;
     },
     async session({ session, token }) {
