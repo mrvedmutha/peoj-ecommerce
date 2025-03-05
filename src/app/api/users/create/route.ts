@@ -14,9 +14,9 @@ export async function POST(request: NextRequest) {
   }
   try {
     const body = await request.json();
-    const { username, fullname, email, password, role } = body;
+    const { username, name, email, password, role } = body;
     const sessionUser = session.user;
-    if (!username || !fullname || !email || !password || !role) {
+    if (!username || !name || !email || !password || !role) {
       return errorResponse("All fields are required", 403);
     }
     if (
@@ -39,11 +39,11 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 15);
     await userService.createUser(
       username,
-      fullname,
+      name,
       email,
       hashedPassword,
       role,
-      sessionUser.fullname,
+      sessionUser.name,
       new Date()
     );
     return successResponse("User created successfully", 201);

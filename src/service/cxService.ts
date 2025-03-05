@@ -15,14 +15,14 @@ export const cxService = {
   },
   async createCxUser(
     username: string,
-    fullname: string,
+    name: string,
     email: string,
     password: string,
     role: string
   ) {
     const user = new CxUser({
       username,
-      fullname,
+      name,
       email,
       password,
       role,

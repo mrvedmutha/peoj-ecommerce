@@ -9,8 +9,8 @@ export async function POST(request: NextRequest) {
   await connectToDatabase();
   try {
     const body = await request.json();
-    const { username, fullname, email, password } = body;
-    if (!username || !fullname || !email || !password) {
+    const { username, name, email, password } = body;
+    if (!username || !name || !email || !password) {
       return errorResponse("All fields are required", 403);
     }
     const userEmail = await cxService.getCxUserByEmail(email);
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 12);
     await cxService.createCxUser(
       username,
-      fullname,
+      name,
       email,
       hashedPassword,
       Roles.CUSTOMER

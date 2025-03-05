@@ -12,7 +12,7 @@ export interface IAddress {
 export interface ICxUser {
   _id?: string;
   username: string;
-  fullname: string;
+  name: string;
   email: string;
   password?: string;
   phone: string;

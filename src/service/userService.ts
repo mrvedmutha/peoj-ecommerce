@@ -3,7 +3,7 @@ import User from "@/models/user";
 export const userService = {
   async createUser(
     username: string,
-    fullname: string,
+    name: string,
     email: string,
     password: string,
     role: string,
@@ -12,7 +12,7 @@ export const userService = {
   ) {
     const user = new User({
       username,
-      fullname,
+      name,
       email,
       password,
       role,

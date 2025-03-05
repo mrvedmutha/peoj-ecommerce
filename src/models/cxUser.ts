@@ -4,7 +4,7 @@ import { ICxUser } from "@/types/cxUserInterface";
 
 const cxUserSchema = new Schema<ICxUser & Document>({
   username: { type: String, required: true, unique: true },
-  fullname: { type: String, required: true },
+  name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String },
   phone: { type: String },
