@@ -26,10 +26,7 @@ import {
 import "@/app/globals.css";
 import { loginSchema } from "@/Schemas/auth/loginSchema";
 import { Roles } from "@/types/enum/enumExports";
-import Image from "next/image";
-import googleSVG from "@/assets/auth/google.svg";
 import Link from "next/link";
-import { compare } from "bcryptjs";
 
 type FormValues = z.infer<typeof loginSchema>;
 
@@ -139,7 +136,7 @@ const Login = () => {
               </CardContent>
             </form>
           </Form>
-          <CardContent className="grid mt-0">
+          {/* <CardContent className="grid mt-0">
             <div className="grid">
               <div className="relative flex py-5 items-center">
                 <div className="flex-grow border-t border-gray-400"></div>
@@ -147,26 +144,7 @@ const Login = () => {
                 <div className="flex-grow border-t border-gray-400"></div>
               </div>
             </div>
-            <div className="grid gap-4">
-              <Button
-                variant={"outline"}
-                onClick={() => {
-                  signIn("google", { callbackUrl: "/cx/dashboard" });
-                }}
-              >
-                <span className="flex">
-                  <Image
-                    src={googleSVG}
-                    alt="Google Logo"
-                    width={20}
-                    height={20}
-                    className="mr-2"
-                  />
-                  Login with Google
-                </span>
-              </Button>
-            </div>
-          </CardContent>
+          </CardContent> */}
           <CardFooter className="flex justify-center">
             <p className="text-sm text-muted-foreground">
               Don&apos;t have an account?{" "}

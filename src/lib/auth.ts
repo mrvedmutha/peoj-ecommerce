@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import dbConnect from "./dbConnect";
 import User from "@/models/user";
 import bcrypt from "bcryptjs";
+import CxUser from "@/models/cxUser";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -39,17 +40,41 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+
   callbacks: {
     async jwt({ token, user }) {
+      // console.log("--------------");
+      // console.log("User before jwt:");
+      // console.log(user);
       if (user) {
         token._id = user._id;
         token.fullname = user.fullname;
         token.email = user.email;
         token.role = user.role;
       }
+      if (user && !user.role) {
+        console.log("no user role found, finding user..."); //TODO remove
+        let existingUser: any = User.findOne({ email: token.email });
+        // console.log("--------------");
+        // console.log("existing user:");
+        // console.log(existingUser);
+        if (!existingUser) {
+          existingUser = CxUser.findOne({ email: token.email });
+        }
+        if (existingUser) {
+          token.fullname = existingUser.fullname;
+          token.role = existingUser.role;
+        }
+      }
+      // console.log("--------------");
+      // console.log("Token after jwt:");
+      // console.log(token);
       return token;
     },
     async session({ session, token }) {
+      console.log("--------------");
+      console.log("Session before session:");
+      console.log(session);
       if (token) {
         session.user._id = token._id;
         session.user.fullname = token.fullname;
@@ -57,6 +82,9 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         session.user.role = token.role;
       }
+      console.log("--------------");
+      console.log("Session after session:");
+      console.log(session);
       return session;
     },
   },

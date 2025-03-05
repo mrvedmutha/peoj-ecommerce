@@ -6,7 +6,9 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req: req }).catch((err) => {
     console.error("Error fetching token in middleware: ", err);
   });
-  console.log(`token in middleware ${token}`); //TODO remove
+  console.log("--------------"); //TODO Remove
+  console.log("Token in middleware");
+  console.log(token);
   const url = req.nextUrl;
   const urlPath = url.pathname;
   if (!token && urlPath !== "/login") {
