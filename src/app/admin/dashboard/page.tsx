@@ -1,8 +1,11 @@
 "use client";
 import React from "react";
 import { signOut } from "next-auth/react";
+import { checkUserSession } from "@/utils/sessionCheck";
 
-const adminDashboard = () => {
+const adminDashboard = async () => {
+  const session = await checkUserSession();
+  console.log(session);
   return (
     <>
       <div>
