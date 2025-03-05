@@ -1,20 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
 import { Roles } from "./types/enum/enumExports";
-export async function middleware(req: NextRequest) {
-  const authSecret = process.env.NEXTAUTH_SECRET as string;
-  const token = await getToken({
-    req: req,
-    secret: authSecret,
-  });
+import { checkUserSession } from "./utils/sessionCheck";
 
+export async function middleware(req: NextRequest) {
+  const token = await checkUserSession();
+  console.log("--------------" + "\n" + "Token in middleware:");
+  console.log(token);
   const url = req.nextUrl;
   const urlPath = url.pathname;
   if (!token && urlPath !== "/login") {
     return NextResponse.redirect(new URL("/login", req.url));
   }
   if (token) {
-    const userRole = token.role;
+    const userRole = token.user.role;
     if (
       userRole === Roles.SUPERADMIN ||
       userRole === Roles.ADMIN ||
