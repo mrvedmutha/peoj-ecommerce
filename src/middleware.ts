@@ -3,20 +3,11 @@ import { getToken } from "next-auth/jwt";
 import { Roles } from "./types/enum/enumExports";
 export async function middleware(req: NextRequest) {
   const authSecret = process.env.NEXTAUTH_SECRET as string;
-  let token = await getToken({
+  const token = await getToken({
     req: req,
     secret: authSecret,
   });
-  if (!token) {
-    token = await getToken({
-      req: req,
-      secret: process.env.NEXTAUTH_SECRET as string,
-      secureCookie: true,
-    });
-  }
-  if (!token) {
-    return null;
-  }
+
   const url = req.nextUrl;
   const urlPath = url.pathname;
   if (!token && urlPath !== "/login") {
