@@ -3,13 +3,20 @@ import { getToken } from "next-auth/jwt";
 import { Roles } from "./types/enum/enumExports";
 export async function middleware(req: NextRequest) {
   const authSecret = process.env.NEXTAUTH_SECRET as string;
-  const token = await getToken({
+  let token = await getToken({
     req: req,
     secret: authSecret,
   });
-  console.log("--------------"); //TODO Remove
-  console.log("Token in middleware");
-  console.log(token);
+  if (!token) {
+    token = await getToken({
+      req: req,
+      secret: process.env.NEXTAUTH_SECRET as string,
+      secureCookie: true,
+    });
+  }
+  if (!token) {
+    return null;
+  }
   const url = req.nextUrl;
   const urlPath = url.pathname;
   if (!token && urlPath !== "/login") {

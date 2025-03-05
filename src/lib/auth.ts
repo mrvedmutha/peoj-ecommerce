@@ -51,42 +51,22 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
-      // console.log("--------------");
-      // console.log("User before jwt:");
-      // console.log(user);
       if (user) {
         token._id = user._id;
-        token.fullname = user.fullname;
+        token.name = user.name;
         token.email = user.email;
         token.role = user.role;
       }
-      // if (user && !user.role) {
-      //   console.log("no user role found, finding user..."); //TODO remove
-      //   let existingUser: any = User.findOne({ email: token.email });
-      //   // console.log("--------------");
-      //   // console.log("existing user:");
-      //   // console.log(existingUser);
-      //   if (!existingUser) {
-      //     existingUser = CxUser.findOne({ email: token.email });
-      //   }
-      //   if (existingUser) {
-      //     token.fullname = existingUser.fullname;
-      //     token.role = existingUser.role;
-      //   }
-      // }
-      // // console.log("--------------");
-      // // console.log("Token after jwt:");
-      // // console.log(token);
+      console.log(
+        "--------------" + "\n" + "Token after session:" + "\n" + token
+      );
       return token;
     },
     async session({ session, token }) {
-      console.log("--------------");
-      console.log("Session before session:");
-      console.log(session);
+      //console.log("--------------" + '\n' + "Session before session:" + '\n' + session);
       if (token) {
         session.user._id = token._id;
-        session.user.fullname = token.fullname;
-        session.user.username = token.username;
+        session.user.name = token.name;
         session.user.email = token.email;
         session.user.role = token.role;
       }
