@@ -6,8 +6,6 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({
     req: req,
     secret: authSecret,
-  }).catch((err) => {
-    console.error("Error fetching token in middleware: ", err);
   });
   console.log("--------------"); //TODO Remove
   console.log("Token in middleware");
