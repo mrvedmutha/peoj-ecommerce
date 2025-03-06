@@ -1,6 +1,7 @@
 import { IProductCategory } from "./productCategoryInterface";
 import { IProductBrand } from "./productBrandInterface";
 import { IProductAttr } from "./productAttribute";
+import { IProductRating } from "./productRatingInterface";
 export interface IProduct {
   _id?: string;
   productName: string;
@@ -23,6 +24,7 @@ export interface IProduct {
     weight: number;
     measurement: string;
   };
+  productRating: IProductRating[];
   stock: number;
   isStockAvailable: boolean;
   isActive: boolean;

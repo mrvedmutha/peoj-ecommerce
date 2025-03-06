@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
               { identifier: credentials.identifier },
             ],
           });
-          console.log("user in authorize", user); //TODO remove
+
           if (!user) {
             user = await CxUser.findOne({
               $or: [
@@ -32,6 +32,7 @@ export const authOptions: NextAuthOptions = {
               ],
             });
           }
+          console.log("user in authorize", user); //TODO remove
           if (!user) {
             throw new Error("User not found");
           }

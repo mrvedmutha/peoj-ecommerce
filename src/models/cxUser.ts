@@ -6,7 +6,7 @@ const cxUserSchema = new Schema<ICxUser & Document>({
   username: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String },
+  password: { type: String, required: true },
   phone: { type: String },
   address: {
     type: [
@@ -24,7 +24,7 @@ const cxUserSchema = new Schema<ICxUser & Document>({
   role: { type: String, required: true, enum: Object.values(Roles) },
   createdAt: { type: Date, default: Date.now },
   isVerified: { type: Boolean, default: false },
-  orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
+  orders: [{ type: Schema.Types.ObjectId, ref: "Order", default: null }],
 });
 
 const CxUser =

@@ -22,6 +22,12 @@ const productSchema = new Schema<IProduct & Document>({
     weight: { type: Number },
     measurement: { type: String },
   },
+  productRating: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "ProductRating",
+    },
+  ],
   stock: { type: Number, required: true },
   isStockAvailable: { type: Boolean, required: true },
   isActive: { type: Boolean, required: true },

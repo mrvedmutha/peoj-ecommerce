@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { checkUserSession } from "@/utils/sessionCheck";
 import { successResponse, errorResponse } from "@/utils/jsonResponse";
 import { Roles } from "@/types/enum/enumExports";
+import { error } from "console";
 
 export async function POST(request: NextRequest) {
   await connectToDatabase();
@@ -18,6 +19,9 @@ export async function POST(request: NextRequest) {
     const sessionUser = session.user;
     if (!username || !name || !email || !password || !role) {
       return errorResponse("All fields are required", 403);
+    }
+    if (!Object.values(Roles).includes(role)) {
+      return errorResponse("Invalid role", 403);
     }
     if (
       sessionUser.role !== Roles.SUPERADMIN &&
