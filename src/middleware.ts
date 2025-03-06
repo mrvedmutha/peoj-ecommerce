@@ -4,7 +4,7 @@ import { Roles } from "../src/types/enum/enumExports";
 export async function middleware(req: NextRequest) {
   const token = await getToken({
     req: req,
-    secureCookie: true,
+    //secureCookie: true,
   });
   const url = req.nextUrl;
   const urlPath = url.pathname;

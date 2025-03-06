@@ -20,14 +20,15 @@ export const authOptions: NextAuthOptions = {
           let user = await User.findOne({
             $or: [
               { email: credentials.identifier },
-              { username: credentials.identifier },
+              { identifier: credentials.identifier },
             ],
           });
+          console.log("user in authorize", user); //TODO remove
           if (!user) {
             user = await CxUser.findOne({
               $or: [
                 { email: credentials.identifier },
-                { username: credentials.identifier },
+                { identifier: credentials.identifier },
               ],
             });
           }
@@ -53,18 +54,18 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token._id = user._id;
-        token.name = user.name;
         token.email = user.email;
         token.role = user.role;
+        token.name = user.name;
       }
       return token;
     },
     async session({ session, token, user }) {
       if (token) {
         session.user._id = token._id;
-        session.user.name = token.name;
         session.user.email = token.email;
         session.user.role = token.role;
+        session.user.name = token.name;
       }
       return session;
     },
