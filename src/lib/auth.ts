@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
               ],
             });
           }
-          console.log("user in authorize", user); //TODO remove
+          console.log("User in authorise:", user);
           if (!user) {
             throw new Error("User not found");
           }
@@ -55,18 +55,18 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token._id = user._id;
-        token.email = user.email;
         token.role = user.role;
         token.name = user.name;
+        token.isVerified = user.isVerified;
       }
       return token;
     },
     async session({ session, token, user }) {
       if (token) {
         session.user._id = token._id;
-        session.user.email = token.email;
         session.user.role = token.role;
         session.user.name = token.name;
+        session.user.isVerified = token.isVerified as boolean;
       }
       return session;
     },

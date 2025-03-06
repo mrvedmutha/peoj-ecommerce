@@ -58,9 +58,7 @@ const Login = () => {
       return;
     }
     const session = await getSession();
-    console.log(session); //TODO remove
     if (session) {
-      console.log("Session exists"); //TODO remove
       const userRole = session.user.role;
       if (
         userRole === Roles.SUPERADMIN ||
@@ -70,10 +68,11 @@ const Login = () => {
         userRole === Roles.MARKETER
       ) {
         router.push("/admin/dashboard");
+      } else if (userRole === Roles.CUSTOMER) {
+        router.push("/cx/dashboard");
+      } else {
+        router.push("/");
       }
-    } else {
-      console.log("welcome customer");
-      router.push("/cx/dashboard");
     }
   };
   return (
@@ -136,7 +135,9 @@ const Login = () => {
               </CardContent>
             </form>
           </Form>
-          {/* <CardContent className="grid mt-0">
+          {/* 
+          GOOGLE BUTTON FEATURE
+          <CardContent className="grid mt-0">
             <div className="grid">
               <div className="relative flex py-5 items-center">
                 <div className="flex-grow border-t border-gray-400"></div>

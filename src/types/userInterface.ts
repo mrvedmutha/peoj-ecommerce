@@ -6,6 +6,7 @@ export interface IUser {
   email: string;
   password: string;
   role: Roles;
+  isVerified: boolean;
   createdBy: any;
   createdAt: Date;
 }

@@ -28,19 +28,21 @@ export async function middleware(req: NextRequest) {
       ) {
         return NextResponse.redirect(new URL("/admin/dashboard", req.url));
       }
-    } else if (userRole === Roles.CUSTOMER) {
+    }
+    if (userRole === Roles.CUSTOMER) {
       if (
         urlPath === "/login" ||
-        urlPath === "/register" ||
         urlPath === "/admin/dashboard" ||
-        urlPath === "/verify"
+        urlPath === "/register"
       ) {
-        console.log("customer access");
         return NextResponse.redirect(new URL("/cx/dashboard", req.url));
-      } else {
-        return NextResponse.next();
       }
     }
+    if (token.isVerified === false) {
+      return NextResponse.redirect(new URL("/verify", req.url));
+    }
+  } else {
+    return NextResponse.next();
   }
 }
 
