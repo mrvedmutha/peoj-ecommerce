@@ -30,13 +30,14 @@ declare module "next-auth/jwt" {
     name?: string;
     email?: string;
     role?: string;
+    isVerified?: boolean;
   }
 }
 
 declare module "next/server" {
   interface NextRequest {
     session: {
-      user: any; //Adjust the type of 'user' as needed
+      user: any;
     };
   }
 }

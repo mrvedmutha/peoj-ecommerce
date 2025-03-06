@@ -25,4 +25,5 @@ export enum PaymentStatus {
 export enum PaymentMethod {
   PREPAID = "prepaid",
   COD = "cod",
+  PARTIAL_COD = "partial_cod",
 }

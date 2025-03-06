@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { Roles } from "@/types/enum/enumExports";
-import { ICxUser } from "@/types/cxUserInterface";
+import { ICxUser } from "@/types/user/customer/cxUserInterface";
+import addressSchema from "@/Schemas/common/addressSchema";
 
 const cxUserSchema = new Schema<ICxUser & Document>({
   username: { type: String, required: true, unique: true },
@@ -9,16 +10,7 @@ const cxUserSchema = new Schema<ICxUser & Document>({
   password: { type: String, required: true },
   phone: { type: String },
   address: {
-    type: [
-      {
-        addressline1: { type: String, required: true },
-        addressline2: { type: String },
-        city: { type: String, required: true },
-        state: { type: String, required: true },
-        country: { type: String, required: true },
-        pincode: { type: String, required: true },
-      },
-    ],
+    type: [addressSchema],
     default: null,
   },
   role: { type: String, required: true, enum: Object.values(Roles) },

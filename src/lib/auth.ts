@@ -1,9 +1,9 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import dbConnect from "./dbConnect";
-import User from "@/models/user";
+import User from "@/models/user/user";
 import bcrypt from "bcryptjs";
-import CxUser from "@/models/cxUser";
+import CxUser from "@/models/user/customer/cxUser";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
         session.user._id = token._id;
         session.user.role = token.role;
         session.user.name = token.name;
-        session.user.isVerified = token.isVerified as boolean;
+        session.user.isVerified = token.isVerified;
       }
       return session;
     },

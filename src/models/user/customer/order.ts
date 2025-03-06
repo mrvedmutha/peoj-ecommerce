@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { IOrder } from "@/types/orderInterface";
+import { IOrder } from "@/types/user/customer/orderInterface";
 import {
   ShippingStatus,
   PaymentMethod,

@@ -1,10 +1,10 @@
-import { ICxUser } from "./cxUserInterface";
-import { IProduct } from "./product/productInterface";
+import { ICxUser } from "@/types/user/customer/cxUserInterface";
+import { IProduct } from "@/types/product/productInterface";
 import {
   PaymentMethod,
   ShippingStatus,
   PaymentStatus,
-} from "./enum/enumExports";
+} from "@/types/enum/enumExports";
 
 export interface IOrderItem {
   product: IProduct;
