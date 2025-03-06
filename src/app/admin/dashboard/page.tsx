@@ -2,7 +2,7 @@
 import React from "react";
 import { signOut } from "next-auth/react";
 
-const adminDashboard = async () => {
+const adminDashboard = () => {
   return (
     <>
       <div>

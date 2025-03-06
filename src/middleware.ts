@@ -1,22 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verify } from "jsonwebtoken";
-import { Roles } from "./types/enum/enumExports";
-
+import { getToken } from "next-auth/jwt";
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get("token");
-  console.log("Token in middleware:");
-  console.log(token);
+  console.log("All Cookies in Middleware:", req.cookies.getAll());
+
+  const token = await getToken({ req });
+  console.log("Token in middleware:", token);
 
   if (!token) {
-    return NextResponse.next();
+    console.log("No token found, redirecting to login.");
+    return NextResponse.redirect(new URL("/login", req.url));
   }
+
+  return NextResponse.next();
 }
+
 export const config = {
-  matcher: [
-    "/admin/dashboard",
-    "/cx/dashboard",
-    "/login",
-    "/register",
-    "/verify",
-  ],
+  matcher: ["/admin/dashboard", "/cx/dashboard", "/register", "/verify"],
 };
