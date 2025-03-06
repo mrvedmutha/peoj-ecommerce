@@ -1,23 +1,55 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { Roles } from "../src/types/enum/enumExports";
 export async function middleware(req: NextRequest) {
-  console.log("All Cookies in Middleware:", req.cookies.getAll());
-
-  //   const token = await getToken({ req, raw: true });
-  //   console.log("Token in middleware:", token);
-
-  console.log(
-    "Token in middleware: ",
-    await getToken({ req, secureCookie: true })
-  );
-  //   if (!token) {
-  //     console.log("No token found, redirecting to login.");
-  //     return NextResponse.redirect(new URL("/login", req.url));
-  //   }
-
-  return NextResponse.next();
+  const token = await getToken({
+    req: req,
+    secureCookie: true,
+  });
+  const url = req.nextUrl;
+  const urlPath = url.pathname;
+  if (!token && urlPath !== "/login") {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+  if (token) {
+    const userRole = token.role;
+    if (
+      userRole === Roles.SUPERADMIN ||
+      userRole === Roles.ADMIN ||
+      userRole === Roles.EDITOR ||
+      userRole === Roles.INVENTORY ||
+      userRole === Roles.MARKETER
+    ) {
+      if (
+        urlPath === "/login" ||
+        urlPath === "/register" ||
+        urlPath === "/cx/dashboard" ||
+        urlPath === "/verify"
+      ) {
+        return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+      }
+    } else if (userRole === Roles.CUSTOMER) {
+      if (
+        urlPath === "/login" ||
+        urlPath === "/register" ||
+        urlPath === "/admin/dashboard" ||
+        urlPath === "/verify"
+      ) {
+        console.log("customer access");
+        return NextResponse.redirect(new URL("/cx/dashboard", req.url));
+      } else {
+        return NextResponse.next();
+      }
+    }
+  }
 }
 
 export const config = {
-  matcher: ["/admin/dashboard", "/cx/dashboard", "/register", "/verify"],
+  matcher: [
+    "/admin/dashboard",
+    "/cx/dashboard",
+    "/login",
+    "/register",
+    "/verify",
+  ],
 };
