@@ -1,4 +1,4 @@
-import User from "@/models/user/user";
+import User from "@/models/admin/user";
 
 export const userService = {
   async createUser(

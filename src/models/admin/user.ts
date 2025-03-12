@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { Roles } from "@/types/enum/enumExports";
-import { IUser } from "@/types/user/userInterface";
+import { IUser } from "@/types/admin/userInterface";
 
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },

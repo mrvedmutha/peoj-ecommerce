@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema } from "mongoose";
 import { IAddress } from "@/types/IAddressInterface";
 import { IndiaStateNamesEnum } from "@/types/enum/country/IN/indiaStateEnum";
 import { IndiaStatesEnum } from "@/types/enum/country/IN/indiaStateEnum";

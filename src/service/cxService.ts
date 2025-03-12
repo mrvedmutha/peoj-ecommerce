@@ -1,4 +1,4 @@
-import CxUser from "@/models/user/customer/cxUser";
+import CxUser from "@/models/customer/cxUser";
 
 export const cxService = {
   async getAllCxUsers() {

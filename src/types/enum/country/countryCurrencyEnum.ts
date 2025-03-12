@@ -285,7 +285,7 @@ export enum CurrencyNameEnum {
   TJS = "Tajikistani Somoni",
   TMT = "Turkmenistani Manat",
   TND = "Tunisian Dinar",
-  TOP = "Tongan Paʻanga",
+  TOP = "Tongan Paanga",
   TRY = "Turkish Lira",
   TTD = "Trinidad and Tobago Dollar",
   TZS = "Tanzanian Shilling",

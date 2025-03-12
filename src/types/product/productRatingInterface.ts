@@ -1,4 +1,4 @@
-import { ICxUser } from "../user/customer/cxUserInterface";
+import { ICxUser } from "../customers/cxUserInterface";
 
 export interface IProductRating {
   _id?: string;

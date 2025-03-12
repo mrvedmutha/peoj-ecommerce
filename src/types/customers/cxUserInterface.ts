@@ -1,5 +1,5 @@
 import { Roles } from "@/types/enum/enumExports";
-import { IOrder } from "@/types/user/customer/orderInterface";
+import { IOrder } from "@/types/customers/orders/orderInterface";
 import { IAddress } from "@/types/IAddressInterface";
 
 export interface ICxUser {
@@ -12,6 +12,9 @@ export interface ICxUser {
   address: IAddress[] | null;
   role: Roles;
   createdAt: Date;
-  orders: IOrder[];
   isVerified: boolean;
+  isSubscribed: boolean;
+  notes: string[];
+  updatedAt: Date;
+  tags: string[];
 }

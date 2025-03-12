@@ -13,7 +13,6 @@ export enum ShippingStatus {
   SHIPPED = "shipped",
   DELIVERED = "delivered",
   CANCELLED = "cancelled",
-  TEST = "test",
 }
 
 export enum PaymentStatus {
@@ -25,5 +24,16 @@ export enum PaymentStatus {
 export enum PaymentMethod {
   PREPAID = "prepaid",
   COD = "cod",
-  PARTIAL_COD = "partial_cod",
+  PARTIAL_COD = "partialCOD",
+}
+
+export enum CouponType {
+  PERCENTAGE = "percentage",
+  FIXED_AMOUNT = "fixedAmount",
+}
+
+export enum CheckoutStatus {
+  SUCCESS = "success",
+  FAILED = "failed",
+  PENDING = "pending",
 }
