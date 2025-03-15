@@ -1,31 +1,40 @@
-import { IProductCategory } from "./productCategoryInterface";
-import { IProductBrand } from "./productBrandInterface";
-import { IProductAttr } from "./productAttribute";
-import { IProductRating } from "./productRatingInterface";
+import { IProductCategory } from "@/types/product/productCategoryInterface";
+import { IProductBrand } from "@/types/product/productBrandInterface";
+import { IProductAttr } from "@/types/product/productAttribute";
+import { IProductReview } from "@/types/product/productReviewInterface";
+import { ITax } from "@/types/store/taxSetting";
+import { IProductPriceDetails } from "@/types/product/productPriceDetailsInterface";
+import { IProductDimension } from "@/types/product/productDimension";
+import { IProductSEODetails } from "@/types/product/productSEODetails";
 export interface IProduct {
   _id?: string;
-  productName: string;
-  productDesc: string;
-  productShortDesc: string;
-  productPrice: number;
-  productCurr: string;
-  productImages: string[];
-  productAttr: IProductAttr[];
-  productBrand: IProductBrand;
-  productCategory: IProductCategory[];
-  productTag: string[];
-  productDimensions: {
-    length: number;
-    breath: number;
-    height: number;
-    measurement: string;
+  title: string;
+  alias?: string;
+  description: string;
+  shortDescription: string;
+  sku?: string;
+  images?: string[];
+  priceDetails?: IProductPriceDetails[];
+  taxDetails?: {
+    isTax: boolean;
+    tax: ITax;
   };
-  productWeight: {
-    weight: number;
-    measurement: string;
+  cogs?: number;
+  profit?: number;
+  margin?: number;
+  package?: IProductDimension;
+  metafields?: IProductSEODetails;
+  stock: {
+    isAvailable: boolean;
+    quantity: number;
   };
-  productRating: IProductRating[];
-  stock: number;
-  isStockAvailable: boolean;
-  isActive: boolean;
+  category: IProductCategory;
+  brand: IProductBrand;
+  slug: string;
+  reviews?: IProductReview[];
+  attributes?: IProductAttr[];
+  tags?: string[];
+  vendor?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

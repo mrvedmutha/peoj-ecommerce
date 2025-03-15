@@ -2,9 +2,9 @@ import mongoose, { Document, Schema } from "mongoose";
 import { IProductBrand } from "@/types/product/productBrandInterface";
 
 const productBrandSchema = new Schema<IProductBrand & Document>({
-  brandName: { type: String, required: true },
-  brandDesc: { type: String, required: true },
-  brandLogo: { type: String, required: true },
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  logo: { type: String, required: true },
 });
 
 const ProductBrand =

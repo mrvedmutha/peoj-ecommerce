@@ -1,6 +1,6 @@
 export interface IProductBrand {
   _id?: string;
-  brandName: string;
-  brandDesc: string;
-  brandLogo: string;
+  name: string;
+  description: string;
+  logo: string;
 }

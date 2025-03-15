@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { IStoreSetting } from "@/types/store/storeSetting";
 import addressSchema from "@/Schemas/common/addressSchema";
+import { CountryEnum } from "@/types/enum/country/countryEnum";
 
 const storeSettingSchema = new Schema<IStoreSetting & Document>({
   storeName: { type: String, required: true },
@@ -12,6 +13,11 @@ const storeSettingSchema = new Schema<IStoreSetting & Document>({
   },
   email: { type: String, required: true },
   phone: { type: String, required: true },
+  baseCurrency: {
+    type: String,
+    required: true,
+    enum: Object.values(CountryEnum),
+  },
 });
 
 const StoreSetting =

@@ -8,7 +8,6 @@ const shippingDetails = new Schema<IShippingDetails>({
   },
   trackingURL: {
     type: String,
-    required: true,
   },
 });
 

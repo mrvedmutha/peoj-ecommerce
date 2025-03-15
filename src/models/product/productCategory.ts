@@ -2,9 +2,10 @@ import mongoose, { Document, Schema } from "mongoose";
 import { IProductCategory } from "@/types/product/productCategoryInterface";
 
 const productCategorySchema = new Schema<IProductCategory & Document>({
-  category: { type: String, required: true },
-  categoryDesc: { type: String, required: true },
-  parent: { type: Schema.Types.ObjectId, ref: "ProductCategory" },
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  subCategory: [{ type: Schema.Types.ObjectId, ref: "ProductCategory" }],
+  createAt: { type: Date, default: Date.now },
 });
 
 const ProductCategory =
